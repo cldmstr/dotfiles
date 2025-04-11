@@ -1,0 +1,48 @@
+[alias]
+        s = status
+        st = status
+        f = fetch
+        ci = commit
+        co = checkout
+        cp = cherry-pick
+        br = branch
+        rb = rebase
+        up = pull --rebase
+        dt = difftool -y
+        dtc = difftool --cached -y
+        mt = mergetool
+        mtc = mergetool --cached
+        lol=log --graph --pretty=oneline --abbrev-commit --decorat
+        lola=log --graph --pretty=oneline --abbrev-commit --decorate --all
+        stash-rename = "!_() { rev=$(git rev-parse $1) && git stash drop $1 || exit 1 ; git diff-index --quiet HEAD; s=$?; [ $s != 0 ] && git stash save \"tmp stash from stash-rename\"; git stash apply $rev && shift && git stash save \"$@\" && [ $s != 0 ] && git stash pop stash@{1}; }; _"
+        flip-last = "!branch=$(git name-rev --name-only HEAD); git rebase --quiet --onto HEAD~2 HEAD~1 HEAD; git cherry-pick ORIG_HEAD~1; git update-ref refs/heads/$branch $(git rev-parse HEAD); git checkout --quiet $branch"
+        show-my-todays-commit = "!git log --all --author=john@bespinian.io --after=\"$(date +\"%Y-%m-%d\") 00:00\" --before=\"$(date +\"%Y-%m-%d\") 23:59\""
+	cbd = "!git branch -vv | grep gone | awk '{ print  }' | xargs git branch -D"
+
+[core]
+	excludesfile = /Users/cloudmeister/.gitignore
+
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+
+[pull]
+	rebase = true
+
+[push]
+        autoSetupRemote = true
+
+[includeIf "gitdir:~/projects/.local/share/chezmoi/"]
+	path = .gitconfig-private
+
+[commit]
+	gpgsign = false 
+
+[tag]
+	gpgSign = true
+
+[user]
+	email = cloudmeister@gmail.com
+	name = John M. Hutchison
