@@ -1,0 +1,68 @@
+export ZSH=/Users/cloudmeister/.oh-my-zsh
+
+# Set name of the theme to load. Optionally, if you set this to "random"
+# it'll load a random theme each time that oh-my-zsh is loaded.
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+# ZSH_THEME="random"
+ZSH_THEME="agnoster"
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(
+  git pass
+)
+
+source $ZSH/oh-my-zsh.sh
+# source ~/git/github.com/liquidprompt/liquidprompt
+
+# User configuration
+
+export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+bindkey -v
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/rsa_id"
+
+alias kfc=kubectl
+alias bfg="java -jar bfg.jar"
+alias ll="ls -alF"
+alias packer='docker run -it --rm -v $(pwd):/packer -w /packer hashicorp/packer:light'
+alias tf=terraform
+alias tg=terragrunt
+alias docker-compose='docker compose '
+alias gcloud='docker run --rm gcr.io/google.com/cloudsdktool/google-cloud-cli:latest gcloud'
+alias gcloudc='echo "docker run --rm gcr.io/google.com/cloudsdktool/google-cloud-cli:latest gcloud"'
+
+export GOPATH=$HOME/projects/go
+export GOMOD=$HOME/projects/go/modules
+export PATH="$PATH:$GOPATH/bin:$GOROOT/bin:/usr/local/anaconda3/bin"
+export PATH=$(brew --prefix openssh)/bin:$PATH
+export LC_ALL=en_US.UTF-8
+export SSH_AUTH_SOCK="$(brew --prefix)/var/run/yubikey-agent.sock"
+export GPG_TTY=$(tty)
+export PATH="/usr/local/opt/openjdk/bin:$PATH"
+
+# tabtab source for yo package
+# uninstall by removing these lines or running `tabtab uninstall yo`
+[[ -f /usr/local/lib/node_modules/yo/node_modules/tabtab/.completions/yo.zsh ]] && . /usr/local/lib/node_modules/yo/node_modules/tabtab/.completions/yo.zsh
+[[ $commands[kubectl] ]] && source <(kubectl completion zsh)
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/vault vault
+eval "$(direnv hook zsh)"
